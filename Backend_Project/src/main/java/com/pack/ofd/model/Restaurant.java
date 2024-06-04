@@ -18,14 +18,7 @@ public class Restaurant {
 	private String street;
 	private String city;
 	private String pinCode;
-	private int userId;
 	
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 	public int getRestaurantId() {
 		return restaurantId;
 	}
