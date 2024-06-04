@@ -18,7 +18,6 @@ public class DeliveryPerson {
 	private String street;
 	private String city;
 	private String pinCode;
-	private int userId;
 	private int restaurantId;
 	
 	public int getDeliveryPersonId() {
@@ -74,12 +73,6 @@ public class DeliveryPerson {
 	}
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
-	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
 	}
 	public int getRestaurantId() {
 		return restaurantId;
