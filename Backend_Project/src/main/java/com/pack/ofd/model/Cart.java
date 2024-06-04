@@ -17,7 +17,7 @@ public class Cart {
 	public int getCartId() {
 		return cartId;
 	}
-	public void setCartId(int cartId) {
+	public void setCartId(int cartIad) {
 		this.cartId = cartId;
 	}
 	public int getCustomerId() {
