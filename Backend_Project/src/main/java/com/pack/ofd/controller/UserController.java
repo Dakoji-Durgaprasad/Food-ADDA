@@ -37,11 +37,10 @@ public class UserController {
 		return userRepository.findAll();
 	}
 	
-	@PostMapping("/login/{email}/{pswd}")
-//	List<User> validateUser(@PathVariable("email") String email,@PathVariable("pswd") String password ){
-//		
+//	@PostMapping("/login")
+//	public ResponseEntity<User> verifyUserToLogin( String email, String password ){
+//		OnlineFoodDeliveryDAO dao = new OnlineFoodDeliveryDAO();
+//		dao.validatingUser(email, password);
+//		return ResponseEntity<User>
 //	}
-	public List<User> verifyUserToLogin(@PathVariable("email") String email,@PathVariable("pswd") String password ){
-		return userRepository.findByEmailAndPassword( email,  password);
-	}
 }
