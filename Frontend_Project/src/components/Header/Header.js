@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 const Header = () => {
   return (
     <>
@@ -6,16 +8,16 @@ const Header = () => {
         <div className="container-fluid">
           <a className="navbar-brand fs-3 px-5">Food ADDA</a>
           <div className="lg-rg bg-primary mx-2 px-2">
-            <a href="login.html">
+            <Link to="/login">
               <button type="button" className="btn btn-outline-light mx-2">
-                Login
+               Login 
               </button>
-            </a>
-            <a href="register.html">
+            </Link>
+            <Link to="/register">
               <button type="button" className="btn btn-outline-light mx-2">
                 Register
               </button>
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
