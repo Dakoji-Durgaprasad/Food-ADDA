@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import Images from './src/components/Images/image';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 import Header from "./src/components/Header/Header";
 import Body from "./src/components/Body/Body";
 import Footer from "./src/components/Footer/Footer";
@@ -10,7 +11,7 @@ import { RouterProvider,Outlet, createBrowserRouter } from "react-router-dom";
 import Error from "./src/components/Error";
 import Login from "./src/components/Body/Login";
 import UserRegister from "./src/components/Body/UserRegister";
-import AdminHeader from "./src/components/Header/AdminHeader";
+import AdminHeader from "./src/components/Admin/AdminHeader";
 
 
 var htmlRoot = document.getElementById("root");
@@ -36,13 +37,13 @@ const Admin = () => {
   )
 }
 
-const Welcome = () => {
-  return(
-    <>
-    <Body/>
-    </>
-  )
-}
+// const Welcome = () => {
+//   return(
+//     <>
+//     <Body/>
+//     </>
+//   )
+// }
 const appRouter = createBrowserRouter(
   [
     {
@@ -51,7 +52,7 @@ const appRouter = createBrowserRouter(
       children:[
         {
           path:"/welcome",
-          element:<Welcome/>,
+          element:<Body/>,
         },
         {
           path:"/login",
@@ -62,8 +63,6 @@ const appRouter = createBrowserRouter(
           element:<UserRegister/>
         },
         {
-          path:"/login/welcome",
-          element:<Welcome/>,
         }
       ],
       errorElement:<Error/>
