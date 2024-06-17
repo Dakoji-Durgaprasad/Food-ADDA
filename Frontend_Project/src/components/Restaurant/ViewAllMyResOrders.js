@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ViewAllMyResOrders = () => {
     return(
@@ -7,7 +8,7 @@ const ViewAllMyResOrders = () => {
         <div className="header fs-1 text-center mb-5 bg-primary text-light rounded-top">
             ALL MY RESTAURANT ORDERS 
             <div className="float-end fs-4  text-light my-3">
-                <a href="restaurantpage.html"><button type="button" className="btn btn-outline-light mx-2 px-3">BACK</button></a>
+                <Link to="/restaurant/home" className="btn btn-outline-light mx-2 px-3">BACK</Link>
             </div>
         </div>
         
@@ -92,7 +93,7 @@ const ViewAllMyResOrders = () => {
                 <td>processing</td>
                 <td>
                     <div className="lg-rg mx-2 ">
-                        <a href="assigndeliveryper.html"><button type="button" className="btn btn-outline-danger mx-2 px-4">ASSIGN DELIVERY</button></a>
+                        <Link to="" className="btn btn-outline-danger mx-2 px-4">ASSIGN DELIVERY</Link>
                     </div>
                 </td>
               </tr>
