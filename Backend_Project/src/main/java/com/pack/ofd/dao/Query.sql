@@ -15,6 +15,7 @@ show tables;
 -- order_delivery
 -- delivery_person
 
+select * from admin;
 select * from user;
 select * from restaurant;
 select * from category;
@@ -26,6 +27,7 @@ select * from order_delivery;
 select * from delivery_person;
 
 -- describe
+desc admin;
 desc user;
 desc restaurant;
 desc category;
@@ -36,14 +38,47 @@ desc order_item;
 desc order_delivery;
 desc delivery_person;
 
-ALTER TABLE user ADD UNIQUE (email_id);
+ALTER TABLE user ADD UNIQUE (email_id); 
 ALTER TABLE user ADD UNIQUE (phone_number);
+
+-- ALTER TABLE user drop column user_type; -- drop column in the table
+
+-- alter table restaurant rename column first_name to restaurant_name ;
+-- alter table restaurant rename column last_name to owner_name ;
+
+-- alter table food rename column catergory_id to category_id;
+
+ALTER TABLE admin ADD UNIQUE(email_id);
+
+-- delete from admin where password="pass";
+-- SET SQL_SAFE_UPDATES = 0;  // Uses to 'off' safe mode while deleting data in the table.
+-- SET SQL_SAFE_UPDATES = 1;  // Uses to 'on' safe mode to prevent the data from deleting.
 
 ALTER TABLE restaurant ADD UNIQUE (email_id);
 ALTER TABLE restaurant ADD UNIQUE (phone_number);
 
-ALTER TABLE food ADD FOREIGN KEY (catergory_id) REFERENCES category(category_id);
+ALTER TABLE category ADD PRIMARY KEY(name);
+ALTER TABLE category ADD UNIQUE(category_id);
+
+ALTER TABLE food MODIFY category_Name VARCHAR(255);
+ALTER TABLE food ADD FOREIGN KEY (category_Name) REFERENCES category(name);
 ALTER TABLE food ADD FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id);
+
+-- To find foreign key constraint name
+select * from INFORMATION_SCHEMA.key_column_usage where table_name ='food';
+
+-- To find primary key constraint name
+SELECT CONSTRAINT_NAME  
+FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+WHERE  TABLE_NAME = 'category'  -- Table Name
+       AND TABLE_SCHEMA = 'online_food_delivery'  -- change it if table is in some other schema 
+       AND CONSTRAINT_TYPE = 'PRIMARY KEY';
+       
+-- To delete foreign to a particular column
+-- ALTER TABLE food DROP CONSTRAINT food_ibfk_1;
+
+-- To delete primary key 
+-- ALTER TABLE category DROP PRIMARY key;
 
 ALTER TABLE food_order ADD FOREIGN KEY (customer_id) REFERENCES user(user_id);
 ALTER TABLE food_order ADD FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id);
@@ -86,4 +121,6 @@ select *from restaurant;
 -- City varchar(200),
 -- Pin_Code varchar(30),
 -- Password varchar(100) not null
--- );
+-- 
+
+select * from user where email_id="Email@gmail.com" && password="pass";
