@@ -3,13 +3,14 @@ import { useParams } from "react-router-dom";
 
 const ViewFoodInfo = () => {
   const { foodId } = useParams();
-  const [foodDetails, setFoodDetails] = useState(null);
+  const [foodDetails, setFoodDetails] = useState([null]);
+  const [restaurantDetails, setRestaurantDetails] = useState([null]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/viewallfoods/${foodId}`);
+        const response = await fetch(`http://localhost:8080/viewfoodbyid/${foodId}`);
         const data = await response.json();
         setFoodDetails(data);
         setLoading(false);
@@ -22,6 +23,22 @@ const ViewFoodInfo = () => {
     fetchFoodDetails();
   }, [foodId]);
 
+useEffect(() => {
+  const fetchRestaurantDetails = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/restaurant/${foodDetails.restaurantId}`);
+      const data = await response.json();
+      setRestaurantDetails(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching food details:", error);
+      setLoading(false);
+    }
+  };
+
+  fetchRestaurantDetails();
+},[foodDetails]);
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -32,6 +49,7 @@ const ViewFoodInfo = () => {
 
     return(
     <div className="container text-center">    
+     {foodDetails && (
     <div className="container mx-5 my-5 shadow border rounded text-center row">
         <div className="col ">
             <div className="container shadow bg-light py-2 my-5">
@@ -44,16 +62,16 @@ const ViewFoodInfo = () => {
                                 aria-label="Slide 2"></button>
                             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
                                 aria-label="Slide 3"></button>
-                        </div>
+                        </div> 
                         <div className="carousel-inner">
                             <div className="carousel-item active" data-bs-interval="10000">
-                                <img src={foodImgUrl} className="d-block w-100" alt="..." height="200px" width="100px"/>
+                                <img src={foodDetails.foodImgUrl} className="d-block w-100" alt="..." height="200px" width="100px"/>
                             </div>
                             <div className="carousel-item" data-bs-interval="2000">
-                                <img src={foodImgUrl2} className="d-block w-100" alt="..." height="200px" width="100px"/>
+                                <img src={foodDetails.foodImgUrl2} className="d-block w-100" alt="..." height="200px" width="100px"/>
                             </div>
                             <div className="carousel-item">
-                                <img src={foodImgUrl3} className="d-block w-100" alt="..." height="200px" width="100px"/>
+                                <img src={foodDetails.foodImgUrl3} className="d-block w-100" alt="..." height="200px" width="100px"/>
                             </div>
                         </div>
                         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
@@ -72,9 +90,10 @@ const ViewFoodInfo = () => {
         </div>
 
         <div className="container border rounded mx-1 my-5 py-5 px-1 shadow col-sm-5">
+        {restaurantDetails ? (
             <form className="px-5">
                 <div className="header fs-2 text-center mb-5 bg-primary text-light rounded-top">
-                {foodDetails.name}
+                {restaurantDetails.restaurantName}
                 </div>
                 <div className="">
                     <h3 className="my-2">Description:</h3>
@@ -82,10 +101,10 @@ const ViewFoodInfo = () => {
                 </div>
                 <div className="">
                    <h3 className="my-2">Restaurant Details:</h3> 
-                    <p className="text-start">Name :  {foodDetails.restaurantName}</p>
-                    <p className="text-start">Contact : {foodDetails.phoneNumber}</p>
-                    <p className="text-start">Email-Id : {foodDetails.emailId}</p>
-                    <p className="text-start">Address : {foodDetails.street}, {foodDetails.city}, {foodDetails.pinCode}</p>
+                    <p className="text-start">Name :  {restaurantDetails.restaurantName}</p>
+                    <p className="text-start">Contact : {restaurantDetails.phoneNumber}</p>
+                    <p className="text-start">Email-Id : {restaurantDetails.emailId}</p>
+                    <p className="text-start">Address : {restaurantDetails.street}, {restaurantDetails.city}, {restaurantDetails.pinCode}</p>
                 </div>
                 <hr/>
                 <div className="text-danger fs-4">
@@ -98,6 +117,9 @@ const ViewFoodInfo = () => {
                             className="btn btn-outline-success mx-2 px-4">GO TO CART</button></a>
                 </div>
             </form>
+          ) : (
+            <p>No Restaurant Is Added</p>
+          )}
         </div>
 
         <div className="container border rounded my-5 mx-1 py-5 shadow text-center col">
@@ -116,18 +138,20 @@ const ViewFoodInfo = () => {
               <tr>
                 <td>Customer-1 5/5 * <br/> Very tasty</td>
               </tr>
-              <tr>
+              {/* <tr>
                 <td>Customer-2 4.5/5* <br/> It's good and worth for money</td>
               </tr>
               <tr>
                 <td>Customer-3 4.2/5* <br/> Very nice</td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
             </form>
         </div>
     </div>
+    )}
     </div>
-    )
-}
+    );
+};
+
 export default ViewFoodInfo;
