@@ -34,6 +34,12 @@ public class RestaurantController {
 		return restaurantRepository.findAll();
 	}
 	
+	@GetMapping("/restaurant/{id}")
+	Restaurant getRestaurantById(@PathVariable int id) {
+		return restaurantRepository.findById(id)
+				.orElseThrow(()->new RestaurantNotFoundException(id));
+	}
+	
 	@DeleteMapping("/delrestaurant/{id}")
 	String deleteRestaurant(@PathVariable("id") int id) {
 		if(!restaurantRepository.existsById(id)) {
