@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useUser } from "../Body/UserContext";
 
 const ViewAllMyDeliveryPersons = () => {
-  
   const [listOfDeliveryPersons, setListOfDeliveryPersons] = useState([]);
-
-  // const { id } = useParams();
+  const { userData } = useUser();
+  const { id } = useParams();
 
   useEffect(() => {
-    loadDeliveryPersons();
-  }, []);
+    console.log("User data:", userData);
+    if (userData && userData.restaurantId) {
+      console.log("Restaurant ID:", userData.restaurantId);
+      loadDeliveryPersons(userData.restaurantId);
+    }
+  }, [userData]);
 
-  const loadDeliveryPersons = async () => {
+  const loadDeliveryPersons = async (restaurantId) => {
     try {
-      const result = await fetch("http://localhost:8080/alldeliverypersons");
-      const jsonObj = await result.json();
-      // console.log(jsonObj);
-      setListOfDeliveryPersons(jsonObj);
+      const response = await fetch(`http://localhost:8080/viewdeliverypersonbyres/${restaurantId}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch delivery persons: ${response.status} - ${response.statusText}`);
+      }
+      const data = await response.json();
+      setListOfDeliveryPersons(data);
     } catch (error) {
       console.error("Error loading Delivery Persons:", error);
+      setListOfDeliveryPersons([]); // Clear the list in case of error or handle differently
     }
   };
 
@@ -29,86 +36,70 @@ const ViewAllMyDeliveryPersons = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(listOfDeliveryPersons),
       });
       if (response.ok) {
         console.log("Delivery Person deleted successfully");
+        loadDeliveryPersons(userData.restaurantId); // Reload delivery persons after deletion
       } else {
         console.error("Failed to delete delivery person:", response.statusText);
+        // Handle failure: display error message or retry logic
       }
-
-      loadDeliveryPersons();
     } catch (error) {
       console.error("Error deleting delivery person:", error.message);
+      // Handle error: display error message or retry logic
     }
   };
 
-    return(
-        <div class="container border rounded my-5 py-5 shadow text-center ">
-        <div class="header fs-1 text-center mb-5 bg-primary text-light rounded-top">
-            ALL DELIVERY PERSONS 
-            <div class="float-end fs-4  text-light my-3">
-                <Link to="/restaurant/home" class="btn btn-outline-light mx-2 px-3">BACK</Link>
-            </div>
+  return (
+    <div className="container border rounded my-5 py-5 shadow text-center">
+      <div className="header fs-1 text-center mb-5 bg-primary text-light rounded-top">
+        ALL DELIVERY PERSONS
+        <div className="float-end fs-4 text-light my-3">
+          <Link to="/restaurant/home" className="btn btn-outline-light mx-2 px-3">
+            BACK
+          </Link>
         </div>
-        {listOfDeliveryPersons.length === 0 ? (
-          <p>No Food Is Added</p>
-        ) : (
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Email Id</th>
-                <th scope="col">Phone No </th>
-                <th scope="col">Address </th>
-                <th scope="col">Action </th>
-              </tr>
-            </thead>
-            <tbody>
+      </div>
+      {listOfDeliveryPersons.length === 0 ? (
+        <p>No Delivery Persons Added</p>
+      ) : (
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Email Id</th>
+              <th scope="col">Phone No</th>
+              <th scope="col">Address</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
             {listOfDeliveryPersons.map((deliveryPerson) => (
-              <tr>
+              <tr key={deliveryPerson.deliveryPersonId}>
                 <td>{deliveryPerson.firstName}</td>
                 <td>{deliveryPerson.lastName}</td>
                 <td>{deliveryPerson.emailId}</td>
                 <td>{deliveryPerson.phoneNumber}</td>
-                <td>{deliveryPerson.street}, {deliveryPerson.city}, {deliveryPerson.pinCode}</td>
+                <td>{`${deliveryPerson.street}, ${deliveryPerson.city}, ${deliveryPerson.pinCode}`}</td>
                 <td>
-                    <div class="lg-rg mx-2 ">
-                      <button type="button" class="btn btn-outline-danger mx-2 px-4">DELETE</button>
-                    </div>
+                  <div className="lg-rg mx-2">
+                    <button
+                      type="button"
+                      className="btn btn-danger mx-2 px-4"
+                      onClick={() => deleteDeliveryPerson(deliveryPerson.deliveryPersonId)}
+                    >
+                      DELETE
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
-              <tr>
-                <td>Delivery Person-2</td>
-                <td>Delivery Person-2</td>
-                <td>deliveryperson2@gmail.com</td>
-                <td>8794278</td>
-                <td>Street, City, Pincode</td>
-                <td>
-                    <div class="lg-rg mx-2 ">
-                        <a href="viewallresdeliveryper.html"><button type="button" class="btn btn-outline-danger mx-2 px-4">DELETE</button></a>
-                    </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Delivery Person-3</td>
-                <td>Delivery Person-3</td>
-                <td>deliveryperson3@gmail.com</td>
-                <td>8794278</td>
-                <td>Street, City, Pincode</td>
-                <td>
-                    <div class="lg-rg mx-2 ">
-                        <button type="button" class="btn btn-outline-danger mx-2 px-4">DELETE</button>
-                    </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        )}
+          </tbody>
+        </table>
+      )}
     </div>
-    )
-}
+  );
+};
 
 export default ViewAllMyDeliveryPersons;
