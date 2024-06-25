@@ -31,7 +31,7 @@ export const DeliveryPersonHeader = () => {
 
 export const MyDeliveryOrders = () => {
   return (
-    <div className="container-fluid border rounded py-5 shadow text-center ">
+    <div className="container border rounded my-5 p-2 shadow text-center ">
       <div className="header fs-1 text-center mb-5 bg-primary text-light rounded-top">
         ALL DELIVERY ORDERS
         <div className="float-end fs-4  text-light my-3">
@@ -44,21 +44,15 @@ export const MyDeliveryOrders = () => {
         </div>
       </div>
 
-      <div className="container search-bar my-5">
-        <form className="d-flex">
-          <input
-            className="form-control me-2 px-5 shadow"
-            list=""
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button className="btn btn-outline-primary shadow" type="submit">
-            Search
-          </button>
-        </form>
-        <hr className="border border-primary border-1 opacity-75 mt-4"/>
-      </div>
+      <div className="container search-bar">
+            <form className="d-flex" style={{justifyContent:"center", textAlign:"center"}}>
+                <input className="form-control px-5 mx-2 shadow" list="" type="search" placeholder="Search"
+                    aria-label="Search" style={{width:"500px"}}/>
+                <button className="btn btn-outline-primary shadow" type="submit">Search</button>
+            </form>
+        </div>
+        <hr className="border border-primary border-1 opacity-75 mx-5 " />
+
       <table className="table">
         <thead>
           <tr>
@@ -176,12 +170,12 @@ export const MyDeliveryOrders = () => {
 export const UpdateDeliveryStatus = () => {
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className="updatedeliverystatus" style={{ display:"flex", justifyContent:"center" }}>
         <div
-          className="payment border rounded mx-5 my-5 py-5 shadow text-center "
-          style="height: auto; width: 400px;">
-          <form className="px-5">
-            <div className="header fs-4 text-center mb-5 bg-primary text-light rounded-top">
+          className="payment border rounded mx-5 my-5 p-2 shadow text-center "
+          style={{height: "auto",width: "550px"}}>
+          <form className="p-2">
+            <div className="header fs-4 text-center mb-5  px-2 py-4 bg-primary text-light rounded-top">
               UPDATE DELIVERY STATUS
             </div>
             <div className="mb-4">
@@ -212,19 +206,22 @@ export const UpdateDeliveryStatus = () => {
             </div>
             <div className="mb-4">
               <select
-                className="form-select form-select-lg mb-3"
+                className="form-select form-select-md mb-3"
                 aria-label="Large select example"
               >
                 <option selected>Select Delivery Status</option>
-                <option value="pending">Pending</option>
+                <option value="pending">Cancelled</option>
                 <option value="delivered">Delivered</option>
                 <option value="ontheway">On the Way</option>
+                <option value="pending">Pending</option>
+                <option value="processing">Processing</option>
               </select>
             </div>
-            <div className="lg-rg mx-2 mt-5">
-              <button type="button" className="btn btn-primary mx-2 px-5">
-                Update Status
+            <div className="lg-rg my-3">
+              <button type="button" className="btn btn-primary mx-2">
+                UPDATE
               </button>
+              <Link to="/deliveryperson/mydeliveryorder" className="btn btn-danger mx-2">BACK</Link>
             </div>
           </form>
         </div>
