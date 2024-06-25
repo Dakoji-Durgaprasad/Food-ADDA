@@ -35,7 +35,7 @@ const UserRegister = () => {
 
       if (response.ok) {
         console.log("User registered successfully");
-        navigate("/Welcome");
+        navigate("/Welcome/home");
       } else {
         console.error("Failed to register user:", response.statusText);
       }
