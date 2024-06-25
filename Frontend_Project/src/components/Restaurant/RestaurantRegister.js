@@ -35,7 +35,7 @@ const RestaurantRegister = () => {
 
       if (response.ok) {
         console.log("Restaurant registered successfully");
-        navigate("/Welcome");
+        navigate("/Welcome/home");
       } else {
         console.error("Failed to register restaurant:", response.statusText);
       }
