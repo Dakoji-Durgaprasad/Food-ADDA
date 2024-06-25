@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useUser } from "../Body/UserContext";
 
 const UpdateFood = () => {
 
   let navigate = useNavigate();
+  
+  const {user} = useUser();
 
   const { id } = useParams();
 
@@ -13,7 +16,7 @@ const UpdateFood = () => {
     description: "",
     price: "",
     categoryName: "",
-    restaurantId:"",
+    restaurantId: user ? user.restaurantId : "",
     foodImgUrl: "",
     foodImgUrl2: "",
     foodImgUrl3: "",
@@ -26,7 +29,6 @@ const UpdateFood = () => {
     description,
     price,
     categoryName,
-    restaurantId,
     foodImgUrl,
     foodImgUrl2,
     foodImgUrl3,
@@ -73,12 +75,26 @@ const UpdateFood = () => {
 
       if (response.ok) {
         console.log("Food updated successfully");
-        navigate("/viewmyfoods");
+        navigate("/restaurant/viewmyfoods");
       } else {
         console.error("Failed to update food:", response.statusText);
       }
     } catch (error) {
       console.error("Error updating food:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      const result = await fetch("http://localhost:8080/viewcategories");
+      const jsonObj = await result.json();
+      setListOfCategories(jsonObj);
+    } catch (error) {
+      console.error("Error loading categories:", error);
     }
   };
 
@@ -236,7 +252,7 @@ const UpdateFood = () => {
                 onChange={(e) => onInputChange(e)}
                 required
               >
-                <option selected>Select Category</option>
+                <option value="">Select Category</option>
                 {listOfCategories.map((category) => (
                   <option key={category.name} value={category.name}>
                     {category.name}
