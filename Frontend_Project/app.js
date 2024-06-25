@@ -24,6 +24,7 @@ import { UserProvider } from "./src/components/Body/UserContext";
 import { CustomerHeader, MyCart, MyOrders, OrderPlaced, PaymentPortal } from "./src/components/Customer/CustomerPage";
 import { DeliveryPersonHeader, MyDeliveryOrders, UpdateDeliveryStatus } from "./src/components/DeliveryPerson/DeliveryPerson";
 import ViewFoodInfo from "./src/components/Body/viewfoodinfo";
+import AssignDeliveryPerson from "./src/components/Restaurant/AssignDeliveryPerson";
 
 // var htmlRoot = document.getElementById("root");
 // var RootReact = ReactDOM.createRoot(htmlRoot);
@@ -250,6 +251,7 @@ const Restaurant = () => (
       <Route path="/deliverypersonregister" element={<RegisterDeliveryPerson />} />
       <Route path="/viewallresdeliveryper" element={<ViewAllMyDeliveryPersons />} />
       <Route path="/viewallrestaurantorders" element={<ViewAllMyResOrders />} />
+      <Route path="/assigndeliveryperson" element={<AssignDeliveryPerson/>}/>
       <Route path="/food-details/:foodId" element={<ViewFoodInfo />} />
       <Route path="*" element={<Error error={{ status: 404, statusText: 'Not Found', message: 'Page not found' }} />} />
     </Routes>
