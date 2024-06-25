@@ -34,7 +34,7 @@ const RestaurantHeader = () => {
                 </ul>
               </div>
             <div className="lg-rg bg-primary mx-2 px-2">
-                <Link to="/welcome/home" className="btn btn-dangers mx-2">Logout</Link>
+                <Link to="/welcome/home" className="btn btn-danger   mx-2">Logout</Link>
             </div>
         </div>
         </nav>
