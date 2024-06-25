@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../Body/UserContext";
 
 const RegisterDeliveryPerson = () => {
   let navigate = useNavigate();
+  const { userData } = useUser();
 
-  const [deliveryPerson, setDeliveryPerson] = useState({
+  const initialDeliveryPersonState = {
     firstName: "",
     lastName: "",
     emailId: "",
@@ -13,7 +15,10 @@ const RegisterDeliveryPerson = () => {
     city: "",
     pinCode: "",
     password: "",
-  });
+    restaurantId: userData ? userData.restaurantId : "" // Ensure user and user.restaurantId exist
+  };
+
+  const [deliveryPerson, setDeliveryPerson] = useState(initialDeliveryPersonState);
 
   const {
     firstName,
@@ -24,6 +29,7 @@ const RegisterDeliveryPerson = () => {
     city,
     pinCode,
     password,
+    restaurantId
   } = deliveryPerson;
 
   const onInputChange = (e) => {
@@ -37,19 +43,16 @@ const RegisterDeliveryPerson = () => {
       const response = await fetch("http://localhost:8080/adddeliveryperson", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(deliveryPerson),
+        body: JSON.stringify(deliveryPerson)
       });
 
       if (response.ok) {
         console.log("Delivery Person registered successfully");
-        navigate("/Welcome");
+        navigate("/restaurant/viewallresdeliveryper");
       } else {
-        console.error(
-          "Failed to register delivery person:",
-          response.statusText
-        );
+        console.error("Failed to register delivery person:", response.statusText);
       }
     } catch (error) {
       console.error("Error registering delivery person:", error.message);
@@ -57,16 +60,16 @@ const RegisterDeliveryPerson = () => {
   };
 
   return (
-    <div class="container border rounded my-5 py-5 shadow text-center ">
-      <form class="px-5" onSubmit={(e) => onSubmit(e)}>
-        <div class="header fs-1 text-center mb-5 bg-primary text-light rounded-top">
+    <div className="container border rounded my-5 py-5 shadow text-center">
+      <form className="px-5" onSubmit={(e) => onSubmit(e)}>
+        <div className="header fs-1 text-center mb-5 bg-primary text-light rounded-top">
           REGISTER
         </div>
-        <div class="row mb-4">
-          <div class="col">
+        <div className="row mb-4">
+          <div className="col">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Enter First name"
               name="firstName"
               value={firstName}
@@ -75,10 +78,10 @@ const RegisterDeliveryPerson = () => {
               required
             />
           </div>
-          <div class="col">
+          <div className="col">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Enter Last name"
               name="lastName"
               value={lastName}
@@ -88,11 +91,11 @@ const RegisterDeliveryPerson = () => {
             />
           </div>
         </div>
-        <div class="row mb-4">
-          <div class="col">
+        <div className="row mb-4">
+          <div className="col">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Enter Email-Id"
               name="emailId"
               value={emailId}
@@ -101,10 +104,10 @@ const RegisterDeliveryPerson = () => {
               required
             />
           </div>
-          <div class="col">
+          <div className="col">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Enter Phone Number"
               name="phoneNumber"
               value={phoneNumber}
@@ -114,12 +117,12 @@ const RegisterDeliveryPerson = () => {
             />
           </div>
         </div>
-        <div class="header fs-4 mb-3 text-left">ADDRESS</div>
-        <div class="row mb-4">
-          <div class="col">
+        <div className="header fs-4 mb-3 text-left">ADDRESS</div>
+        <div className="row mb-4">
+          <div className="col">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Enter Street"
               name="street"
               value={street}
@@ -128,10 +131,10 @@ const RegisterDeliveryPerson = () => {
               required
             />
           </div>
-          <div class="col">
+          <div className="col">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Enter City"
               name="city"
               value={city}
@@ -141,11 +144,11 @@ const RegisterDeliveryPerson = () => {
             />
           </div>
         </div>
-        <div class="row mb-4">
-          <div class="col">
+        <div className="row mb-4">
+          <div className="col">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Enter Pin Code"
               name="pinCode"
               value={pinCode}
@@ -154,10 +157,10 @@ const RegisterDeliveryPerson = () => {
               required
             />
           </div>
-          <div class="col">
+          <div className="col">
             <input
-              type="text"
-              class="form-control"
+              type="password"
+              className="form-control"
               placeholder="Enter Password"
               name="password"
               value={password}
@@ -167,11 +170,11 @@ const RegisterDeliveryPerson = () => {
             />
           </div>
         </div>
-        <div class="lg-rg mx-2 mt-5">
-          <button type="submit" class="btn btn-primary mx-2 px-5">
+        <div className="lg-rg mx-2 mt-5">
+          <button type="submit" className="btn btn-primary mx-2 px-5">
             REGISTER
           </button>
-          <Link to="/restaurant/home" class="btn btn-danger mx-2 px-5">
+          <Link to="/restaurant/home" className="btn btn-danger mx-2 px-5">
             BACK
           </Link>
         </div>
