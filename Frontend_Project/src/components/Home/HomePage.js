@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { CategorySlideShimmer } from "../ShimmerEffect/ShimmerEffect";
+import { CategorySlideShimmer, RestaurantCardShimmer } from "../ShimmerEffect/ShimmerEffect";
+import { Link } from "react-router-dom";
+import RestaurantCards from "../Body/RestaurantCards";
 
 
 
@@ -22,26 +24,13 @@ export const Carousel = () => {
                  </div>
                 <div className="carousel-inner">
                     <div className="carousel-item active" data-bs-interval="10000">
-                        <img src="https://www.baltana.com/files/wallpapers-2/Food-HD-Pictures-04863.jpg" className="d-block w-100" alt="image-1" height="500" width="400"/>
-                        <div className="carousel-caption d-none d-md-block">
-                            <h5>First slide label</h5>
-                            <p>Some representative placeholder content for the first slide.</p>
-                        </div>
+                        <img src="https://4kwallpapers.com/images/wallpapers/welcome-neon-glow-dark-background-glowing-1920x1080-2068.jpg" className="d-block w-100" alt="image-1" height="500" width="400"/>
                      </div>
+                     {/* <div className="carousel-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNpVO_f3FxpzSPOjWGAyJ2DAxwmih778g1Yw&s" className="d-block w-100" alt="image-3" height="500" width="200"/>
+                    </div> */}
                      <div className="carousel-item" data-bs-interval="2000">
-
-                        <img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" className="d-block w-100" alt="image-2" height="500" width="400"/>
-                        <div class="carousel-caption d-none d-md-block text-light">
-                            <h5>Second slide label</h5>
-                            <p>Some representative placeholder content for the second slide.</p>
-                        </div>
-                    </div>
-                    <div className="carousel-item">
-                        <img src="https://th-i.thgim.com/public/incoming/vricut/article65937264.ece/alternates/LANDSCAPE_1200/Spicy%20Venue-apricot%20delight.jpg" className="d-block w-100" alt="image-3" height="500" width="400"/>
-                        <div className="carousel-caption d-none d-md-block bg-light rounded-pill mx-5 my-3">
-                            <h5>Third slide label</h5>
-                            <p>Some representative placeholder content for the third slide.</p>
-                        </div>
+                        <img src="https://10619-2.s.cdn12.com/rests/original/101_518460517.jpg" className="d-block w-100" alt="image-2" height="500" width="400"/>
                     </div>
                 </div>
                 <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -92,6 +81,7 @@ export const CategorySlide = () => {
                   <div
                     className="card text-center border border-0 px-2"
                     style={{ width: "18rem " }}
+                    key={category.categoryId}
                   >
                     <img
                       src={category.categoryImg}
@@ -116,74 +106,69 @@ export const CategorySlide = () => {
 
 // -----------------------------------------------------------------------Search Box-------------------------------------------------------------
 
-// export const SearchBox = ({setFilteredCategories}) => {
+export const SearchBox = () => {
+  const [listOfFoods, setListOfFoods] = useState([]);
+  const [filteredFoods, setFilteredFoods] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
-//     const [searchText, setSearchText] = useState("");
-//     const [listOfCategories, setListOfCategories] = useState([]);
-//     const [filteredCategories,setFilteredCategories] = useState([])
-  
-//     useEffect(() => {
-//       fetchData();
-//     }, []);
-  
-//     const fetchData = async () => {
-//       try {
-//         const result = await fetch("http://localhost:8080/viewcategories");
-//         const data = await result.json();
-//         // console.log(jsonObj);
-//         setListOfCategories(data);
-  
-//       } catch (error) {
-//         console.error("Error loading users:", error);
-//       }
-//     };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-//     const handleSearch = () => {
-//         const filteredCategories = listOfCategories.filter((category) =>
-//             category.name.toLowerCase().includes(searchText.toLowerCase())
-//         );
-//         if (typeof setFilteredCategories === 'function') {
-//             setFilteredCategories(filteredCategories);
-//           }
-//     };
-  
-//     return (
-//       <>
-//         <div className="container search-bar mt-5">
-//           <form className="d-flex"
-//             onSubmit={(e) => {
-//             e.preventDefault();
-//             handleSearch();
-//           }}>
-//             <input
-//               className="form-control me-2 px-5 shadow"
-//               list="datalistOptions"
-//               type="search"
-//               value={searchText}
-//               onChange={(e) => setSearchText(e.target.value)}
-//               placeholder="Search"
-//               aria-label="Search"
-//             />
-//             <button className="btn btn-outline-primary shadow" 
-//               type="submit" 
-//               >
-//               Search
-//             </button>
-//             {/* <datalist id="datalistOptions">
-//                       <option value="Biryani">
-//                       <option value="Veg Biryani">
-//                       <option value="Pot Biryani">
-//                       <option value="Desert">
-//                       <option value="Ice cream">
-//                   </datalist> */}
-//           </form>
-//           <div className="res-container">
-//             {filteredCategories.map((category) => (
-//                 <CategorySlide key={category.name} resInfo={category} />
-//              ))}
-//             </div>
-//         </div>
-//         <hr className="border border-dark border-1 opacity-75 mx-5 mt-4" />
-//       </>
-//     );
-//   };
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/viewallfoods");
+      if (!response.ok) {
+        throw new Error("Failed to fetch foods");
+      }
+      const data = await response.json();
+      setListOfFoods(data);
+      setFilteredFoods(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const filtered = listOfFoods.filter((food) =>
+      food.name.toLowerCase().includes(searchText.toLowerCase()) 
+    // || food.restaurantName.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredFoods(filtered);
+  };
+
+  return (
+    <>
+      <div className="container search-bar mt-5">
+        <form
+          className="d-flex"
+          style={{ justifyContent: "center", textAlign: "center" }}
+          onSubmit={handleSearch}
+        >
+          <input
+            className="form-control me-2 px-5 shadow"
+            type="search"
+            placeholder="Search by food name"
+            aria-label="Search"
+            style={{ width: "720px" }}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <button
+            className="btn btn-outline-primary shadow"
+            type="submit"
+          >
+            Search
+          </button>
+        </form>
+      </div>
+      <hr className="border border-dark border-1 opacity-75 mx-5 mt-4" />
+      <div>
+        {filteredFoods.map((food) => (
+          <RestaurantCards key={food.foodId} food={food} />
+        ))}
+      </div>
+    </>
+  );
+};
