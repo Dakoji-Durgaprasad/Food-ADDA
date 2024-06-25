@@ -735,20 +735,15 @@ export const ViewAllCustomerOrders = () => {
         </div>
       </div>
 
-      <div className="container search-bar my-5">
-        <form className="d-flex">
-          <input
-            className="form-control me-2 px-5 shadow"
-            list=""
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button className="btn btn-outline-primary shadow" type="submit">
-            Search
-          </button>
-        </form>
-      </div>
+      <div className="container search-bar">
+            <form className="d-flex" style={{justifyContent:"center", textAlign:"center"}}>
+                <input className="form-control px-5 mx-2 shadow" list="" type="search" placeholder="Search"
+                    aria-label="Search" style={{width:"500px"}}/>
+                <button className="btn btn-outline-primary shadow" type="submit">Search</button>
+            </form>
+        </div>
+        <hr className="border border-primary border-1 opacity-75 mx-5 " />
+        
       <table className="table">
         <thead>
           <tr>
@@ -879,7 +874,7 @@ export const AdminRegister = () => {
     }
   };
   return (
-    <div className="container border rounded my-5 py-5 shadow text-center ">
+    <div className="container border rounded my-5 py-5 shadow text-center " style={{ height: 'auto', width: '450px' }}>
       <form className="px-5" onSubmit={(e) => onSubmit(e)}>
         <div className="header fs-1 text-center mb-5 bg-primary text-light rounded-top">
           ADMIN REGISTER
