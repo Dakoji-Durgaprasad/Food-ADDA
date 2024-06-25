@@ -16,15 +16,17 @@ show tables;
 -- delivery_person
 
 select * from admin;
-select * from user;
+select * from user; 
 select * from restaurant;
-select * from category;
+select * from category;		
 select * from food;
-select * from food_order;
+select * from food_order;		
 select * from cart;
 select * from order_item;
 select * from order_delivery;
 select * from delivery_person;
+
+-- drop table order_delivery_seq;
 
 -- describe
 desc admin;
@@ -60,9 +62,14 @@ ALTER TABLE restaurant ADD UNIQUE (phone_number);
 ALTER TABLE category ADD PRIMARY KEY(name);
 ALTER TABLE category ADD UNIQUE(category_id);
 
+SELECT * FROM restaurant WHERE restaurant_id = 1;
+
+SHOW CREATE TABLE food;
+
 ALTER TABLE food MODIFY category_Name VARCHAR(255);
 ALTER TABLE food ADD FOREIGN KEY (category_Name) REFERENCES category(name);
 ALTER TABLE food ADD FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id);
+ALTER TABLE food MODIFY COLUMN food_img_url2 VARCHAR(5000); -- Adjust the length as per your requirement
 
 -- To find foreign key constraint name
 select * from INFORMATION_SCHEMA.key_column_usage where table_name ='food';
@@ -81,13 +88,13 @@ WHERE  TABLE_NAME = 'category'  -- Table Name
 -- ALTER TABLE category DROP PRIMARY key;
 
 ALTER TABLE food_order ADD FOREIGN KEY (customer_id) REFERENCES user(user_id);
-ALTER TABLE food_order ADD FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id);
 
 ALTER TABLE cart ADD FOREIGN KEY (customer_id) REFERENCES user(user_id);
 ALTER TABLE cart ADD FOREIGN KEY (food_id) REFERENCES food(food_id);
 
 ALTER TABLE order_item ADD FOREIGN KEY (order_id) REFERENCES food_order(order_id);
 ALTER TABLE order_item ADD FOREIGN KEY (food_id) REFERENCES food(food_id);
+ALTER TABLE order_item ADD FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id);
 
 ALTER TABLE delivery_person ADD UNIQUE (email_id);
 ALTER TABLE delivery_person ADD UNIQUE (phone_number);
