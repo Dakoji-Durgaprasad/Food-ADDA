@@ -33,7 +33,7 @@ const CategorySlide = () => {
                 <div
                   className="card text-center border border-0 px-2"
                   style={{ width: "18rem " }}
-                >
+                  key={category.categoryId}>
                   <img
                     src={category.categoryImg}
                     className="card-img-top categoryimg"
