@@ -1,5 +1,8 @@
+
+Documentation Link : https://docs.google.com/document/d/1LFGXAWdNul8v4rNvJaeuUm3Xpi1zTpZ_lzAR8o_CBFE/edit?usp=sharing
+
 <span align="center">
-	
+
 # Description
 
 <p>	In this online food delivery project we are going to add different types of modules like admin,restaurant, delivery, and customer. Where the admin can manage all the fields and actions on the application whereas the restaurant module is used to add their foods and delivery partner and manage their foods in the application. Delivery person can add the status of the order. Whereas customers can choose their favorite food and add to cart and place the order and also customer can check the status of the order and finally customer can give review to food. </p>
